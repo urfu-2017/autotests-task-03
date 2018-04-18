@@ -1,0 +1,28 @@
+{
+  "name": "autotests-task-03",
+  "version": "1.0.0",
+  "description": "Задача «Крестики-нолики»",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha-headless-chrome --file index.html --args no-sandbox"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/urfu-2017/autotests-task-03.git"
+  },
+  "keywords": [
+    "autotests",
+    "cross-zero"
+  ],
+  "author": "Sergey Zhigalov <sergey.zhigalov@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/urfu-2017/autotests-task-03/issues"
+  },
+  "homepage": "https://github.com/urfu-2017/autotests-task-03#readme",
+  "devDependencies": {
+    "chai": "4.1.2",
+    "mocha": "5.1.0",
+    "mocha-headless-chrome": "1.8.3"
+  }
+}
