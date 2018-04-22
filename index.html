@@ -2,26 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>cross-zero</title>
-
-    <!-- подключаем стили, чтобы тесты вяглядели красиво -->
+    <title>Tic-tac-toe</title>
     <link href="node_modules/mocha/mocha.css" rel="stylesheet"/>
 </head>
 <body>
-<!-- относительно этого элемента выводится тестовый отчет -->
-<div id="mocha"></div>
+    <!-- Main -->
+    <div id="root"></div>
+    <script src="dist/bundle.js"></script>
 
-<!-- подключаем файл с логикой определения победителя -->
-<script src="index.js"></script>
-
-<!-- подключаем файл с библиотекой ассертов -->
-<script src="node_modules/chai/chai.js"></script>
-
-<!-- конфигурируем и запускаем тесты -->
-<script src="node_modules/mocha/mocha.js"></script>
-<script>mocha.setup('bdd');</script>
-<script src="tests/index-test.js"></script>
-<script>mocha.run();</script>
-
+    <!-- Tests -->
+    <div id="mocha"></div>
+    <script src="node_modules/chai/chai.js"></script>
+    <script src="node_modules/mocha/mocha.js"></script>
+    <script>mocha.setup('bdd');</script>
+    <script src="tests/index-test.js"></script>
+    <script>mocha.run();</script>
 </body>
 </html>

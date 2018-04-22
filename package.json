@@ -4,6 +4,8 @@
   "description": "Задача «Крестики-нолики»",
   "main": "index.js",
   "scripts": {
+    "serve": "budo src/index.js:dist/bundle.js  --live -- -t [ babelify --presets es2015 ] -t vueify",
+    "build": "browserify -t [ babelify --presets es2015 ] -t vueify src/index.js | uglifyjs -cm > dist/bundle.js",
     "test": "mocha-headless-chrome --file index.html --args no-sandbox"
   },
   "repository": {
@@ -12,7 +14,7 @@
   },
   "keywords": [
     "autotests",
-    "cross-zero"
+    "tic-tac-toe"
   ],
   "author": "Sergey Zhigalov <sergey.zhigalov@gmail.com>",
   "license": "MIT",
@@ -21,8 +23,21 @@
   },
   "homepage": "https://github.com/urfu-2017/autotests-task-03#readme",
   "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babelify": "^8.0.0",
+    "browserify": "^16.2.0",
+    "budo": "^11.2.0",
     "chai": "4.1.2",
     "mocha": "5.1.0",
-    "mocha-headless-chrome": "1.8.3"
+    "mocha-headless-chrome": "1.8.3",
+    "stylus": "^0.54.5",
+    "uglify-js": "^3.3.22",
+    "vueify": "^9.4.1"
+  },
+  "dependencies": {
+    "lodash": "^4.17.5",
+    "vue": "^2.5.16"
   }
 }
