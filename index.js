@@ -70,7 +70,7 @@ var steps = 0;
 		if (isSameCells([1,0, 1,1, 2,1])) return getCellValue(2,1);
 		if (isSameCells([0,2, 1,2, 2,2])) return getCellValue(2,2);
 		if (isSameCells([0,0, 1,1, 2,2])) return getCellValue(2,2);
-		if (isSameCells([0,2, 1,1, 0,2])) return getCellValue(0,2);
+		if (isSameCells([0,2, 1,1, 2,0])) return getCellValue(2,0);
 	}
 	
 	
