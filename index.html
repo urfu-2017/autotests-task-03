@@ -5,7 +5,7 @@
     <title>cross-zero</title>
 
     <!-- подключаем стили, чтобы тесты вяглядели красиво -->
-    <!-- <link href="node_modules/mocha/mocha.css" rel="stylesheet"/> -->
+    <link href="node_modules/mocha/mocha.css" rel="stylesheet"/>
     <link href="css/index.css" rel="stylesheet"/>
     <link href="css/app.css" rel="stylesheet"/>
     <link href="css/game.css" rel="stylesheet"/>
@@ -14,11 +14,10 @@
     <link href="css/result.css" rel="stylesheet"/>
 </head>
 <body>
-<!-- относительно этого элемента выводится тестовый отчет -->
-<div id="mocha"></div>
 <main class="app">
     <section class="game">
         <header class="game__header">
+            <dir class="game__name">You VS Computer</dir>
             <button class="game__start" onclick="newGame()">Начать заново</button>
         </header>
         <div class="game__table">
@@ -37,7 +36,8 @@
         Финал!
     </section>
 </main>
-
+<!-- относительно этого элемента выводится тестовый отчет -->
+<div id="mocha"></div>
 <!-- подключаем файл с логикой определения победителя -->
 <script src="index.js"></script>
 
