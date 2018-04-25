@@ -1,5 +1,6 @@
 // Реализуй логику выбора победителя в этом файле
 const playingField = document.getElementById('playing-field');
+const winDiv = document.getElementById('winner');
 let currentPlayer = 'x';
 let canChangePlayer = true;
 let strokeNumber = 1;
@@ -75,7 +76,7 @@ playingField.addEventListener('click', event => {
             let id = hiddenInput.getAttribute('id').split('-');
             if (checkWin(id[0], id[1])) {
                 let winPlayer = currentPlayer === 'x' ? 'первый игрок! (крестики)' : 'второй игрок! (нолики)';
-                alert('Победил ' + winPlayer);
+                winDiv.innerHTML = 'Победил ' + winPlayer;
                 return;
             }
         }
@@ -85,7 +86,7 @@ playingField.addEventListener('click', event => {
     }
 
     if (strokeNumber == 10) {
-        alert("Ничья! Победила дружба!");
+        winDiv.innerHTML = "Ничья! Победила дружба!";
     }
     canChangePlayer = true;
 });
