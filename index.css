@@ -1,0 +1,90 @@
+
+body
+{
+    background: linear-gradient(180deg, #b45edbf1, #f797a7c7) fixed;
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    font-size: 100px;
+    color: rgba(0, 0, 0, 0.493);
+    text-align: center;
+    cursor:	pointer;
+    padding: 50px;
+    display: flex;
+}
+
+.board
+{
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 450px;
+    height: 450px;
+}
+
+.cell
+{
+    border: 2px solid black;
+    height: 146px;
+    width: 146px;
+    background-color: white;
+    opacity: .5;
+}
+
+.cell:hover
+{
+    opacity: 1;
+}
+
+.game
+{
+    display: flex;
+    flex-direction: column;
+}
+
+.button
+{
+    color: #fff;
+    background:  #922fc0f1;
+    padding: 10px;
+    border: none;
+    outline: none;
+    margin-bottom: 20px;
+}
+
+.button:hover
+{
+    background:  #e6788ac7;
+}
+
+.button:active
+{
+    background: #994a57c7;
+}
+
+.mocha
+{
+    background: rgba(255, 255, 255, 0.274);
+    padding: 20px;
+    color: black;
+    width: 100%;
+}
+
+#mocha {
+    font: 20px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+    margin-left: 30px;
+}
+
+#mocha-report
+{
+    width: 700px;
+}
+
+#mocha .test.pass::before {
+    color: #06c540;
+    font-weight: bold;
+}
+
+#mocha .suite .suite h1 {
+    margin-top: 0;
+    font-size: 20px;
+}
