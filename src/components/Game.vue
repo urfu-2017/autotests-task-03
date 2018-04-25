@@ -13,11 +13,13 @@
     import Battlefield from './Battlefield.vue'
     import GameMenu from './GameMenu.vue'
 
-    import _ from 'lodash'
+    import { constant, times, range, chunk, flow } from 'lodash'
+    import { includes, inRange } from 'lodash/fp'
 
     const X = 'X'
     const O = 'O'
     const N = ''
+    const PLAYERS = [X, O]
 
     const LOG_TIMEOUT = 2 * 1000
     const LOG_INFO = 'info'
@@ -25,64 +27,212 @@
     const LOG_WARNING = 'warning'
     const LOG_SUCCESS = 'success'
 
-    const DEFAULT_SIZE = 3
-    const PLAYERS = [X, O]
+    const DEFAULT_SIZE = 4
+    const DEFAULT_WIN_SIZE = 3
+
+
+    const generateBattlefield = (size) => (
+        times(size * size, constant(N))
+        .map((value, index) => ({ value, index }))
+    )
 
 
     export default {
         data () {
             return {
                 log: [],
+                finished: false,
                 size: DEFAULT_SIZE,
+                winSize: DEFAULT_WIN_SIZE,
                 players: PLAYERS,
-                battlefield: this.generateBattlefield(DEFAULT_SIZE)
+                battlefield: null
             }
         },
 
+        created () {
+            this.battlefield = this.buildBattlefield()
+        },
+
         computed: {
-            rows: function () {
-                return _.chunk(this.battlefield, this.size)
+            rows () {
+                return chunk(this.battlefield, this.size)
             },
 
-            player: function () {
+            player () {
                 return this.players[0]
             }
         },
 
+        watch: {
+            battlefield (value) {
+                if (!value) {
+                    this.battlefield = this.buildBattlefield()
+                }
+            },
+
+            size (newValue, oldValue) {
+                if (newValue !== oldValue) {
+                    this.battlefield = null
+                }
+            }
+        },
+
         methods: {
-            generateBattlefield: function (size) {
+            buildBattlefield () {
                 return (
-                    _.times(size * size, _.constant(N))
+                    times(this.size * this.size, constant(N))
                     .map((value, index) => ({ value, index }))
                 )
             },
 
-            setLog: function (message, level=LOG_INFO, timeout=LOG_TIMEOUT) {
+            getCol (cellIdx) {
+                return Math.floor(cellIdx % this.size)
+            },
+
+            getRow (cellIdx) {
+                return Math.floor(cellIdx / this.size)
+            },
+
+            initialHorizontal () {
+                return range(this.size)
+            },
+
+            initialVertical () {
+                return this.initialHorizontal().map(
+                    x => x * this.size
+                )
+            },
+
+            initialDiagonal1 () {
+                return this.initialHorizontal().map(
+                    x => x * this.size + x
+                )
+            },
+
+            initialDiagonal2 () {
+                return this.initialDiagonal1().map(
+                    x => (this.getRow(x) + 1) * this.size - this.getCol(x) - 1
+                )
+            },
+
+            rightTo (columns) {
+                return x => x + columns
+            },
+
+            downTo (rows) {
+                return x => x + this.size * rows
+            },
+
+            shiftVertical (cellIdx) {
+                let cellCol = this.getCol(cellIdx)
+                return this.rightTo(cellCol)
+            },
+
+            shiftHorizontal (cellIdx) {
+                let cellRow = this.getRow(cellIdx)
+                return this.downTo(cellRow)
+            },
+
+            shiftDiagonal1 (cellIdx) {
+                let cellRow = this.getRow(cellIdx)
+                let cellCol = this.getCol(cellIdx)
+                return this.downTo(cellRow - cellCol)
+            },
+
+            shiftDiagonal2 (cellIdx) {
+                let cellRow = this.getRow(cellIdx)
+                let cellCol = this.getCol(cellIdx)
+                return this.downTo(cellRow - this.size + cellCol + 1)
+            },
+
+            lineBy (initial, ...funcs) {
+                return (
+                    initial
+                    .map(flow(...funcs))
+                    .filter(inRange(0, this.size * this.size))
+                    .map(x => this.battlefield[x].value)
+                    .join('')
+                )
+            },
+
+            verticalLine (cellIdx) {
+                return this.lineBy(
+                    this.initialVertical(),
+                    this.shiftVertical(cellIdx)
+                )
+            },
+
+            horizontalLine (cellIdx) {
+                return this.lineBy(
+                    this.initialHorizontal(),
+                    this.shiftHorizontal(cellIdx)
+                )
+            },
+
+            diagonal1Line (cellIdx) {
+                return this.lineBy(
+                    this.initialDiagonal1(),
+                    this.shiftDiagonal1(cellIdx)
+                )
+            },
+
+            diagonal2Line (cellIdx) {
+                return this.lineBy(
+                    this.initialDiagonal2(),
+                    this.shiftDiagonal2(cellIdx)
+                )
+            },
+
+            checkWin (cellIdx) {
+                return [
+                    this.verticalLine(cellIdx),
+                    this.horizontalLine(cellIdx),
+                    this.diagonal1Line(cellIdx),
+                    this.diagonal2Line(cellIdx)
+                ].some(
+                    includes(this.player.repeat(this.winSize))
+                )
+            },
+
+            setLog (message, level=LOG_INFO, timeout=LOG_TIMEOUT) {
                 this.log.push({ message, level })
                 if (timeout) {
                     setTimeout(() => { this.log.shift() }, timeout)
                 }
             },
 
-            nextTurn: function () {
+            nextTurn () {
                 this.players.push(this.players.shift())
             },
 
-            makeTurn: function (cellIdx) {
+            makeTurn (cellIdx) {
+                if (this.finished) {
+                    this.setLog('The game is finished', LOG_WARNING)
+                    return
+                }
+
                 let cell = this.battlefield[cellIdx]
 
                 if (cell.value !== N) {
-                    this.setLog('Place is occupied', LOG_WARNING)
+                    this.setLog('The place is occupied', LOG_WARNING)
                     return
                 }
 
                 cell.value = this.player
+
+                if (this.checkWin(cell.index)) {
+                    this.finished = true
+                    this.setLog(`Player ${this.player} won!`, LOG_SUCCESS)
+                    return
+                }
+
                 this.nextTurn()
             },
 
-            newGame: function () {
+            newGame () {
                 if (confirm('This game will be lost. Continue?')) {
-                    this.battlefield = this.generateBattlefield(this.size)
+                    this.finished = false
+                    this.battlefield = null
                 }
             }
         },

@@ -4,9 +4,11 @@
   "description": "Задача «Крестики-нолики»",
   "main": "index.js",
   "scripts": {
-    "serve": "budo src/index.js:dist/bundle.js  --live -- -t [ babelify --presets es2015 ] -t vueify",
     "build": "browserify -t [ babelify --presets es2015 ] -t vueify src/index.js | uglifyjs -cm > dist/bundle.js",
-    "test": "mocha-headless-chrome --file index.html --args no-sandbox"
+    "build:tests": "browserify -t [ babelify --presets es2015 ] -t vueify tests/index.js | uglifyjs -cm > dist/bundle.js",
+    "mocha-headless-chrome": "mocha-headless-chrome --file index.html --args no-sandbox",
+    "serve": "budo src/index.js tests/index.js --serve dist/bundle.js --live -- -t [ babelify --presets es2015 ] -t vueify",
+    "test": "npm run build:tests && npm run mocha-headless-chrome"
   },
   "repository": {
     "type": "git",
@@ -34,6 +36,7 @@
     "mocha-headless-chrome": "1.8.3",
     "stylus": "^0.54.5",
     "uglify-js": "^3.3.22",
+    "vue-test-utils": "^1.0.0-beta.11",
     "vueify": "^9.4.1"
   },
   "dependencies": {
