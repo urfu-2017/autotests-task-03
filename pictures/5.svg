@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 149 114" style="enable-background:new 0 0 149 114;" xml:space="preserve">
+<style type="text/css">.st0{fill:#BF0000;} .st1{fill:#FF0000;} .st2{fill:#F0EBDD;}</style>
+<g>
+	<polygon points="149,57 114,57 114,0"/>
+	<polygon class="st0" points="134,86 56,86 56,28 114,0"/>
+	<polygon class="st1" points="114,114 0,114 0,0 114,0"/>
+	<path class="st2" d="M49.5,59c-5.4-2.7-9-8.3-9-14.8c0-9.1,7.3-16.5,16.2-16.5c8.9,0,16.2,7.4,16.2,16.5
+		c0,6.5-3.7,12.1-9,14.8c10.6,3.1,18.3,13.1,18.3,24.9V86h-51v-2.1C31.1,72.1,38.9,62.2,49.5,59z"/>
+</g>
+</svg>

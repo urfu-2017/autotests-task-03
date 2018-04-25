@@ -1,27 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <title>cross-zero</title>
-
-    <!-- подключаем стили, чтобы тесты вяглядели красиво -->
+    <meta charset="utf-8">
+    <title>Tick-tac-toe-testing</title>
+    <link rel="stylesheet" href="index.css">
     <link href="node_modules/mocha/mocha.css" rel="stylesheet"/>
+    <script src="index.js"></script>
+    <script src="game.js"></script>
+    <script>
+        let game = Game(3, 3);
+    </script>
+    <script src="creator.js"></script>
+    <script src="visualInterface.js"></script>
 </head>
-<body>
-<!-- относительно этого элемента выводится тестовый отчет -->
-<div id="mocha"></div>
-
-<!-- подключаем файл с логикой определения победителя -->
-<script src="index.js"></script>
-
-<!-- подключаем файл с библиотекой ассертов -->
-<script src="node_modules/chai/chai.js"></script>
-
-<!-- конфигурируем и запускаем тесты -->
-<script src="node_modules/mocha/mocha.js"></script>
-<script>mocha.setup('bdd');</script>
-<script src="tests/index-test.js"></script>
-<script>mocha.run();</script>
-
+<body onload="upgradeInterface()">
+    <main class="main">
+        <article id="mocha"></article>
+        <article class="game">
+            <span class="description"></span>
+            <section class="board"></section>
+            <section class="first-player player">
+                <h1 class="player-number">1</h1>
+                <div class="first-player__mark mark"></div>
+                <hr />
+                <div class="first-player__picker picker"></div>
+            </section>
+            <section class="second-player player">
+                <h3 class="player-number">2</h3>
+                <div class="second-player__mark mark"></div>
+                <hr />
+                <div class="second-player__picker picker"></div>
+            </section>
+            <section class="setting">
+                <input type="button" value="Начать новую игру" class="setting__new-game" onClick="createNewGame()" />
+                <label for="rows" class="setting__rows-title">Количество строк</label>
+                <input type="number" id="rows" class="setting__rows" value="3" />
+                <label for="columns" class="setting__columns-title">Количество колонок</label>
+                <input type="number" id="columns" class="setting__columns" value="3" />
+            </section>
+        </article>
+    </main>
+    <script src="node_modules/chai/chai.js"></script>
+    <script src="node_modules/mocha/mocha.js"></script>
+    <script src="node_modules/sinon-chai/lib/sinon-chai.js"></script>
+    <script src="node_modules/sinon/pkg/sinon.js"></script>
+    <script>mocha.setup('bdd');</script>
+    <script src="tests/index-test.js"></script>
+    <script>mocha.run();</script>
 </body>
 </html>
