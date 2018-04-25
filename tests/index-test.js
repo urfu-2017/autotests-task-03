@@ -119,7 +119,7 @@ describe('cross-zero', () => {
             chai.expect(game.findWinner(board)).to.equal('o');
         });
 
-        it("should have nine div squares", () => {
+        it('should have nine div squares', () => {
             const board = document.querySelector('.board');
             const boardArray = game.getState();
             let sum = 0;
@@ -129,6 +129,13 @@ describe('cross-zero', () => {
                 }
             }
             chai.expect(sum).to.equal(9);
+        });
+
+        it('should check that marked cell can`t be remarked', () => {
+            document.querySelector('.cell').click();
+            document.querySelector('.cell').click();
+            const boardArray = game.getState();
+            chai.expect(boardArray[0][0]).to.equal('x');
         });
     })
 });
