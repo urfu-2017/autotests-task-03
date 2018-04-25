@@ -6,8 +6,31 @@
 
     <!-- подключаем стили, чтобы тесты вяглядели красиво -->
     <link href="node_modules/mocha/mocha.css" rel="stylesheet"/>
+    <link href="index.css" rel="stylesheet"/>
 </head>
 <body>
+
+<table id="playing-field">
+    <div id="winner"></div>
+    <tr>
+        <td class="cell" id="1-1"><input type="text" hidden><span class="value"></span></td>
+        <td class="cell" id="1-2"><input type="text" hidden><span class="value"></span></td>
+        <td class="cell" id="1-3"><input type="text" hidden><span class="value"></span></td>
+    </tr>
+    <tr>
+        <td class="cell" id="2-1"><input type="text" hidden><span class="value"></span></td>
+        <td class="cell" id="2-2"><input type="text" hidden><span class="value"></span></td>
+        <td class="cell" id="2-3"><input type="text" hidden><span class="value"></span></td>
+    </tr>
+    <tr>
+        <td class="cell" id="3-1"><input type="text" hidden><span class="value"></span></td>
+        <td class="cell" id="3-2"><input type="text" hidden><span class="value"></span></td>
+        <td class="cell" id="3-3"><input type="text" hidden><span class="value"></span></td>
+    </tr>
+</table>
+
+<input type="button" onclick="wipe()" value="wipe" id="wipe" name="wipe">
+
 <!-- относительно этого элемента выводится тестовый отчет -->
 <div id="mocha"></div>
 
@@ -19,7 +42,7 @@
 
 <!-- конфигурируем и запускаем тесты -->
 <script src="node_modules/mocha/mocha.js"></script>
-<script>mocha.setup('bdd');</script>
+<script>mocha.setup("bdd");</script>
 <script src="tests/index-test.js"></script>
 <script>mocha.run();</script>
 
