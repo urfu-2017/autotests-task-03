@@ -1,0 +1,23 @@
+.result
+{
+    position: fixed;
+    margin: auto;
+    font-size: 80px;
+    font-weight: 900;
+    display: none;
+}
+
+.result-show
+{
+    display: block;
+}
+
+.result-green
+{
+    color: green;    
+}
+
+.result-red
+{
+    color: red;    
+}

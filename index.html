@@ -6,11 +6,38 @@
 
     <!-- подключаем стили, чтобы тесты вяглядели красиво -->
     <link href="node_modules/mocha/mocha.css" rel="stylesheet"/>
+    <link href="css/index.css" rel="stylesheet"/>
+    <link href="css/app.css" rel="stylesheet"/>
+    <link href="css/game.css" rel="stylesheet"/>
+    <link href="css/game__header.css" rel="stylesheet"/>
+    <link href="css/game__table.css" rel="stylesheet"/>
+    <link href="css/result.css" rel="stylesheet"/>
 </head>
 <body>
+<main class="app">
+    <section class="game">
+        <header class="game__header">
+            <dir class="game__name">You VS Computer</dir>
+            <button class="game__start" onclick="newGame()">Начать заново</button>
+        </header>
+        <div class="game__table">
+            <span class="cell" id="1"></span>
+            <span class="cell" id="2"></span>
+            <span class="cell" id="3"></span>
+            <span class="cell" id="4"></span>
+            <span class="cell" id="5"></span>
+            <span class="cell" id="6"></span>
+            <span class="cell" id="7"></span>
+            <span class="cell" id="8"></span>
+            <span class="cell" id="9"></span>
+        </div>
+    </section>
+    <section class="result">
+        Финал!
+    </section>
+</main>
 <!-- относительно этого элемента выводится тестовый отчет -->
 <div id="mocha"></div>
-
 <!-- подключаем файл с логикой определения победителя -->
 <script src="index.js"></script>
 

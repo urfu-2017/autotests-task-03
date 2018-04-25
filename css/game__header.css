@@ -1,0 +1,42 @@
+.game__header
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.game__name
+{
+    font-size: 50px;
+    color: rgb(53, 167, 110);
+    margin: 0;
+    padding: 0;
+}
+
+.game__start
+{
+    width: 470px;
+    background: rgb(64,199,129);
+    height: 50px;
+    color: #fff;
+    text-decoration: none;
+    user-select: none;
+    outline: none;
+    border-radius: 10px;
+    border: none;
+    font-size: 30px;
+    text-shadow: 0 -1px 1px grey;
+    box-shadow: -1px -1px 16px 0px #009b0d98 inset;
+    margin: 5px;
+}
+
+.game__start:hover
+{
+    background: rgb(53, 167, 110); 
+}
+
+.game__start:active
+{
+    background: rgb(33,147,90);
+}
