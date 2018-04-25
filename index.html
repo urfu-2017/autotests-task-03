@@ -1,27 +1,84 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>cross-zero</title>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+        <title>Tic Tac Toe</title>
+        <link rel="stylesheet" href="./css/styles.css">
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700&amp;subset=cyrillic" rel="stylesheet">
+        <link rel="stylesheet" href="node_modules/mocha/mocha.css">
+    </head>
+    <body><div class="wrapper">
 
-    <!-- подключаем стили, чтобы тесты вяглядели красиво -->
-    <link href="node_modules/mocha/mocha.css" rel="stylesheet"/>
-</head>
-<body>
-<!-- относительно этого элемента выводится тестовый отчет -->
-<div id="mocha"></div>
+        <!-- Игровое поле -->
+        <div class="field">
+            <div class="clearfix">
+                <div class="field__cell">
+                    <input type="hidden" value="">
+                    <button type="button" class="field__cell-control"></button>
+                </div>
+                <div class="field__cell">
+                    <input type="hidden" value="cross">
+                    <button type="button" class="field__cell-control"></button>
+                </div>
+                <div class="field__cell">
+                    <input type="hidden" value="cross">
+                    <button type="button" class="field__cell-control"></button>
+                </div>
+                <div class="field__cell">
+                    <input type="hidden" value="">
+                    <button type="button" class="field__cell-control"></button>
+                </div>
+                <div class="field__cell">
+                    <input type="hidden" value="zero">
+                    <button type="button" class="field__cell-control"></button>
+                </div>
+                <div class="field__cell">
+                    <input type="hidden" value="">
+                    <button type="button" class="field__cell-control"></button>
+                </div>
+                <div class="field__cell">
+                    <input type="hidden" value="zero">
+                    <button type="button" class="field__cell-control"></button>
+                </div>
+                <div class="field__cell">
+                    <input type="hidden" value="cross">
+                    <button type="button" class="field__cell-control"></button>
+                </div>
+                <div class="field__cell">
+                    <input type="hidden" value="">
+                    <button type="button" class="field__cell-control"></button>
+                </div>
+            </div>
+        </div>
 
-<!-- подключаем файл с логикой определения победителя -->
-<script src="index.js"></script>
+        <button type="button" class="game-restart">Начать заново</button>
 
-<!-- подключаем файл с библиотекой ассертов -->
-<script src="node_modules/chai/chai.js"></script>
+        <div class="turn-order">
+            <span class="turn-order__cross"></span>
+            <span class="turn-order__zero"></span>
+        </div>
 
-<!-- конфигурируем и запускаем тесты -->
-<script src="node_modules/mocha/mocha.js"></script>
-<script>mocha.setup('bdd');</script>
-<script src="tests/index-test.js"></script>
-<script>mocha.run();</script>
+        <div class="winner-popup"><div class="winner-popup__message"></div></div>
 
-</body>
+    </div>
+
+    <div id="mocha"></div>
+
+    <!-- Полифиллы -->
+    <script src="./libs/addEventListener.js"></script>
+    <script src="./libs/classList.min.js"></script>
+    <!-- Игровая логика -->
+    <script src="index.js"></script>
+
+    <!-- Библиотека assert'ов -->
+    <script src="node_modules/chai/chai.js"></script>
+
+    <!-- Конфигурация и запуск тестов -->
+    <script src="node_modules/mocha/mocha.js"></script>
+    <script>mocha.setup('bdd');</script>
+    <script src="tests/index-test.js"></script>
+    <script>mocha.run();</script>
+
+    </body>
 </html>
