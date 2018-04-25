@@ -136,6 +136,7 @@ describe('cross-zero', () => {
             document.querySelector('.cell').click();
             const boardArray = game.getState();
             chai.expect(boardArray[0][0]).to.equal('x');
+            createGame();
         });
     })
 });
