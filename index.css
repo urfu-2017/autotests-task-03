@@ -1,0 +1,84 @@
+table {
+    border-collapse: collapse;
+
+    border-style: hidden;
+}
+
+td {
+    width: 100px;
+    height: 100px;
+
+    cursor: pointer;
+    transition: background-color .2s ease-out;
+
+    border: 2px solid black;
+    background-color: #91e6f3;
+}
+
+td:hover {
+    background-color: cyan;
+}
+
+.val {
+    position: relative;
+}
+
+.val:before {
+    font-size: 80px;
+
+    position: absolute;
+    top: 8px;
+    left: 22px;
+
+    display: none;
+
+    content: '\2718';
+    pointer-events: none;
+
+    opacity: 0;
+}
+
+.val:after {
+    font-size: 100px;
+    font-weight: bold;
+
+    position: absolute;
+    top: -11px;
+    left: 18px;
+
+    display: none;
+
+    content: '\26AC';
+    pointer-events: none;
+
+    opacity: 0;
+}
+
+.current_x td:hover input:not([value]) + .val:before,
+.current_o td:hover input:not([value]) + .val:after {
+    display: inline-block;
+
+    opacity: .2;
+}
+
+input[value='x'] + .val:before {
+    display: inline-block;
+
+    opacity: 1;
+}
+
+input[value='o'] + .val:after {
+    display: inline-block;
+
+    opacity: 1;
+}
+
+.header {
+    margin: 50px;
+}
+
+.new-game,
+.game-state {
+    display: inline-block;
+    padding-right: 20px;
+}
