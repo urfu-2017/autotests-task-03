@@ -3,14 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <title>cross-zero</title>
-
-    <!-- подключаем стили, чтобы тесты вяглядели красиво -->
     <link href="node_modules/mocha/mocha.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="./index.css">
 </head>
 <body>
-<!-- относительно этого элемента выводится тестовый отчет -->
-<div id="mocha"></div>
+    <table id="playing-field" class="current_x">
+        <tr>
+            <td><input type="text" hidden id="0-0"><span class="val"></span></td>
+            <td><input type="text" hidden id="0-1"><span class="val"></span></td>
+            <td><input type="text" hidden id="0-2"><span class="val"></span></td>
+        </tr>
+        <tr>
+            <td><input type="text" hidden id="1-0"><span class="val"></span></td>
+            <td><input type="text" hidden id="1-1"><span class="val"></span></td>
+            <td><input type="text" hidden id="1-2"><span class="val"></span></td>
+        </tr>
+        <tr>
+            <td><input type="text" hidden id="2-0"><span class="val"></span></td>
+            <td><input type="text" hidden id="2-1"><span class="val"></span></td>
+            <td><input type="text" hidden id="2-2"><span class="val"></span></td>
+        </tr>
+    </table>
 
+    <div class="winner">
+        <p class="winner__p"></p>
+    </div>
+
+    <div class="button-wrapper">
+        <button onClick="newGame()" class="button-wrapper__button">Новая игра</button>
+    </div>
+
+
+
+    <div id="mocha"></div>
+    
 <!-- подключаем файл с логикой определения победителя -->
 <script src="index.js"></script>
 
