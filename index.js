@@ -2,7 +2,7 @@
 const playingField = document.getElementById('playing-field');
 let currentPlayer = 'x';
 let canChangePlayer = true;
-
+let moves = 0;
 function getCellValue(row, column) {
     const input = document.getElementById(row + '-' + column);
 
@@ -21,10 +21,21 @@ playingField.addEventListener('click', event => {
         if (checkOnWinner(hiddenInput.id)) return;
         currentPlayer = currentPlayer === 'x' ? 'o' : 'x';
         playingField.setAttribute('class', 'current_' + currentPlayer);
+        moves++;
     }
+    if(checkTie()) return;
     canChangePlayer = true;
 });
 
+function checkTie() {
+    if(moves === 9) {
+        document.querySelector('.winner__p').innerHTML = 'Ничья';
+
+        return true;
+    }
+
+    return false;
+}
 
 function checkOnWinner(id) {
     let row = Number(id[0]);
@@ -93,6 +104,7 @@ function newGame() {
     });
     canChangePlayer = true;
     currentPlayer = 'x';
+    moves = 0;
     playingField.setAttribute('class', 'current_' + currentPlayer);
     document.querySelector('.winner__p').innerHTML = "";
 }
