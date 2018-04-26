@@ -1,34 +1,120 @@
-const cellClick = (x, y) => 
+const push = (x, y) => 
 document.getElementById(`${x}-${y}`).parentNode.click(); 
-const button = document.getElementById('new_game');
 
-describe('cross-zero', () => { 
+describe('cross-first', () => { 
     // Этот тест можно уалить, он нужен для проверки сборки 
     it('should sum digits', () => chai.assert(1 + 1, 2)); 
-    //button.click(); 
-    it('should alert x wins', () => { 
-        //button.click(); 
-        cellClick(0, 0); 
-        cellClick(1, 0); 
-        cellClick(0, 1); 
-        cellClick(1, 1); 
-        cellClick(0, 2); 
-        //const actual = getWiner(); 
-        chai.assert(1, 1); 
-        //button.click(); 
+    cleargame(); 
+    it('row win x, should alert x wins', () => { 
+        cleargame(); 
+        push(0, 0); 
+        push(1, 0); 
+        push(0, 1); 
+        push(1, 1); 
+        push(0, 2); 
+        const actual = counter(); 
+        chai.expect(actual).to.equal(1);
+        cleargame(); 
     }); 
-    it('should alert x wins', () => { 
-        //button.click(); 
-        cellClick(1, 1); 
-        cellClick(0, 0); 
-        cellClick(2, 2); 
-        cellClick(0, 2); 
-        cellClick(0, 1); 
-        cellClick(2, 1); 
-        cellClick(1, 2); 
-        cellClick(1, 0); 
-        cellClick(2, 0); 
-        //const actual = getWiner(); 
-        chai.assert(1, 1); 
+    it('zigzag win x, should alert x wins', () => { 
+        cleargame(); 
+        push(0, 0); 
+        push(1, 0); 
+        push(1, 1); 
+        push(2, 0); 
+        push(2, 2); 
+        const actual = counter(); 
+        chai.expect(actual).to.equal(1);
+        cleargame(); 
+    }); 
+    it('column win x, should alert x wins', () => { 
+        cleargame(); 
+        push(0, 0); 
+        push(0, 1); 
+        push(1, 0); 
+        push(1, 1); 
+        push(2, 0); 
+        const actual = counter(); 
+        chai.expect(actual).to.equal(1);
+        cleargame(); 
+    }); 
+    it('-zigzag win x, should alert x wins', () => { 
+        cleargame(); 
+        push(0, 2); 
+        push(0, 1); 
+        push(1, 1); 
+        push(2, 1); 
+        push(2, 0); 
+        const actual = counter(); 
+        chai.expect(actual).to.equal(1);
+        cleargame(); 
+    });
+    
+});
+describe('cross-second', () => { 
+    it('row win o, should alert o wins', () => { 
+        cleargame(); 
+        push(0, 0); 
+        push(1, 0); 
+        push(0, 1); 
+        push(1, 1); 
+        push(2, 2); 
+        push(1, 2); 
+        const actual = counter(); 
+        chai.expect(actual).to.equal(2);
+        cleargame(); 
+    }); 
+    it('zigzag win o, should alert o wins', () => { 
+        cleargame(); 
+        push(0, 1); 
+        push(0, 0); 
+        push(1, 0); 
+        push(1, 1); 
+        push(2, 0); 
+        push(2, 2); 
+        const actual = counter(); 
+        chai.expect(actual).to.equal(2);
+        cleargame(); 
+    }); 
+    it('column win o, should alert o wins', () => { 
+        cleargame(); 
+        push(0, 1); 
+        push(0, 0); 
+        push(1, 1); 
+        push(2, 0); 
+        push(2, 2); 
+        push(1, 0);
+        const actual = counter(); 
+        chai.expect(actual).to.equal(2);
+        cleargame(); 
+    }); 
+    it('-zigzag win o, should alert o wins', () => { 
+        cleargame(); 
+        push(0, 1); 
+        push(0, 2); 
+        push(2, 1); 
+        push(1, 1); 
+        push(2, 2); 
+        push(2, 0); 
+        const actual = counter(); 
+        chai.expect(actual).to.equal(2);
+        cleargame(); 
+    }); 
+});
+describe('cross-third', () => { 
+    it('no winers', () => { 
+        cleargame(); 
+        push(0, 0); 
+        push(0, 1); 
+        push(1, 0); 
+        push(1, 1); 
+        push(2, 1); 
+        push(2, 0);
+        push(0, 2);
+        push(1, 2);
+        push(2, 2);
+        const actual = counter(); 
+        chai.expect(actual).to.equal(0);
+        cleargame(); 
     }); 
 });

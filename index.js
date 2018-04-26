@@ -1,7 +1,11 @@
 // Реализуй логику выбора победителя в этом файле
 const playingField = document.getElementById('playing-field');
+const winer = document.getElementById('winer');
 let currentPlayer = 'x';
 let canChangePlayer = true;
+let counteOfPick = 0;
+var x;
+var o;
 
 function getCellValue(row, column) {
     const input = document.getElementById(row + '-' + column);
@@ -24,15 +28,20 @@ playingField.addEventListener('click', event => {
         playingField.setAttribute('class', 'current_' + currentPlayer);
     }
     canChangePlayer = true;
+    counteOfPick++;
+    if (counteOfPick > 4)
+    {
+    counter();
+    }
+    
+    
+});
 
-    var x = [0,0,0,0];
-    var o = [0,0,0,0];
+function counter() {
     for(var i = 0; i < 3 ; i++)
     {
-        x[0]=0;
-        x[1]=0;
-        o[0]=0;
-        o[1]=0;
+        x = Array(2).fill(0);
+        o = Array(2).fill(0);
         for(var j = 0; j < 3; j++)
         {
             if(getCellValue(i,j)=='x')
@@ -52,34 +61,67 @@ playingField.addEventListener('click', event => {
                 o[1]++;
             }
         }
+        if(x[0]==3 || x[1]==3)
+        {
+            winer.innerHTML = "x wins";
+            canChangePlayer = false;
+            return 1;
+        }
+        if(o[0]==3 || o[1]==3)
+        {
+            winer.innerHTML = "o wins";
+            canChangePlayer = false;
+            return 2;
+        }
+    }
+    x = Array(2).fill(0);
+    o = Array(2).fill(0);
+    for(var i = 0; i < 3 ; i++)
+    {
         if(getCellValue(i,i)=='x')
         {
-            x[2]++;
+            x[0]++;
         }
         if(getCellValue(i,i)=='o')
         {
-            o[2]++;
+            o[0]++;
         }
-        getWiner(x,o);
-    }
-    
-});
-
-function getWiner(x,o) {
-    for(var j = 0; j < 4; j++)
-    {
-        if(x[j]==3)
+        if(getCellValue(2-i,i)=='x')
         {
-        alert("x wins");
+            x[1]++;
+        }
+        if(getCellValue(2-i,i)=='o')
+        {
+            o[1]++;
+        }
+    } 
+    if(x[0]==3 || x[1]==3)
+    {
+        winer.innerHTML = "x wins";
         canChangePlayer = false;
         return 1;
-        }
-        if(o[j]==3)
-        {
-        alert("o wins");
+    }
+    if(o[0]==3 || o[1]==3)
+    {
+        winer.innerHTML = "o wins";
         canChangePlayer = false;
         return 2;
-        }
     }
-    return 0;
+    if (counteOfPick == 9)
+    {
+        winer.innerHTML = "no winers";
+        return 0;
+    }
 }
+
+function cleargame()
+{
+    currentPlayer = 'x';
+    canChangePlayer = true;
+    counteOfPick=0;
+    winer.innerHTML = "";
+    for(var i=0; i<9; i++)
+        document.getElementsByTagName('input')[i].removeAttribute('value');
+    playingField.setAttribute('class', 'current_' + currentPlayer);
+}
+
