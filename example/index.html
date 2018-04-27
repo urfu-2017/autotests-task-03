@@ -82,6 +82,8 @@
     </style>
 </head>
 <body>
+<button id="replay" onclick="replay()">Новая игра</button>
+<span id="final-status" class="status" value="">Ходит X</span>
 <table id="playing-field" class="current_x">
     <tr>
         <td><input type="text" hidden id="0-0"><span class="val"></span></td>
@@ -100,14 +102,55 @@
     </tr>
 </table>
 <script>
+    const waysToWin = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8], // Горизонтали
+        [0, 3, 6], [1, 4, 7], [2, 5, 8], // Вертикали
+        [0, 4, 8], [2, 4, 6]             // Диагонали
+    ];
+
     const playingField = document.getElementById('playing-field');
+    const finalStatus = document.getElementById('final-status');
     let currentPlayer = 'x';
     let canChangePlayer = true;
+    let movesCount = 0;
 
     function getCellValue(row, column) {
         const input = document.getElementById(row + '-' + column);
 
         return input.value;
+    }
+
+    function getCellValueByIndex(index) {
+        return getCellValue(Math.trunc(index / 3), index % 3);
+    }
+
+    function getFinalStatus(movesCount) {
+        for (let way of waysToWin) {
+            let a = getCellValueByIndex(way[0]);
+            let b = getCellValueByIndex(way[1]);
+            let c = getCellValueByIndex(way[2]);
+
+            if (a === b && b === c && a) {
+                return a;
+            }
+        }
+
+        if (movesCount === 9) {
+            return 'draw';
+        }
+    }
+
+    function replay() {
+        for (let input of document.getElementsByTagName('input')) {
+            input.setAttribute('value', '');
+        }
+
+        playingField.setAttribute('class', 'current_x');
+        finalStatus.setAttribute('value', '');
+        finalStatus.innerText = 'Ходит X';
+        canChangePlayer = true;
+        currentPlayer = 'x';
+        movesCount = 0;
     }
 
     playingField.addEventListener('click', event => {
@@ -123,9 +166,19 @@
             hiddenInput.setAttribute('value', currentPlayer);
             currentPlayer = currentPlayer === 'x' ? 'o' : 'x';
             playingField.setAttribute('class', 'current_' + currentPlayer);
+            finalStatus.innerText = `Ходит ${currentPlayer.toUpperCase()}`;
+            movesCount++;
         }
 
         canChangePlayer = true;
+
+        const status = getFinalStatus(movesCount);
+
+        if (status) {
+            finalStatus.innerText = status === 'draw' ? 'Ничья' : `Победа ${status}`;
+            finalStatus.setAttribute('value', status);
+            canChangePlayer = false;
+        }
     });
 </script>
 </body>
