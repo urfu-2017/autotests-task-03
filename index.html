@@ -6,22 +6,43 @@
 
     <!-- подключаем стили, чтобы тесты вяглядели красиво -->
     <link href="node_modules/mocha/mocha.css" rel="stylesheet"/>
+    <link href="index.css" type="text/css" rel="stylesheet">
 </head>
 <body>
+
+<input id="play-again" type="button" value="Начать сначала"/>
+<table id="playing-field" class="current_x">
+    <tr>
+        <td id="td-0-0"><input type="text" hidden id="0-0"><span class="val"></span></td>
+        <td id="td-0-1"><input type="text" hidden id="0-1"><span class="val"></span></td>
+        <td id="td-0-2"><input type="text" hidden id="0-2"><span class="val"></span></td>
+    </tr>
+    <tr>
+        <td id="td-1-0"><input type="text" hidden id="1-0"><span class="val"></span></td>
+        <td id="td-1-1"><input type="text" hidden id="1-1"><span class="val"></span></td>
+        <td id="td-1-2"><input type="text" hidden id="1-2"><span class="val"></span></td>
+    </tr>
+    <tr>
+        <td id="td-2-0"><input type="text" hidden id="2-0"><span class="val"></span></td>
+        <td id="td-2-1"><input type="text" hidden id="2-1"><span class="val"></span></td>
+        <td id="td-2-2"><input type="text" hidden id="2-2"><span class="val"></span></td>
+    </tr>
+</table>
+<p id="winner"></p>
+
+<script src="index.js"></script>
+
 <!-- относительно этого элемента выводится тестовый отчет -->
 <div id="mocha"></div>
-
-<!-- подключаем файл с логикой определения победителя -->
-<script src="index.js"></script>
 
 <!-- подключаем файл с библиотекой ассертов -->
 <script src="node_modules/chai/chai.js"></script>
 
 <!-- конфигурируем и запускаем тесты -->
 <script src="node_modules/mocha/mocha.js"></script>
-<script>mocha.setup('bdd');</script>
+<script>mocha.setup('bdd')</script>
 <script src="tests/index-test.js"></script>
-<script>mocha.run();</script>
+<script>mocha.run()</script>
 
 </body>
 </html>
