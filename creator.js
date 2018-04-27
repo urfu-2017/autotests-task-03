@@ -1,5 +1,6 @@
+// Функция меняет счетчик следующего хода и возвращает его
 const getNextMove = (mark1, mark2) => {
-    const nextMove = document.getElementsByClassName('next-move')[0];
+    const nextMove = document.querySelector('.next-move');
     const currentValue = nextMove.getAttribute('value');
     
     if (Number(currentValue) === Number(mark1)) {
@@ -11,96 +12,107 @@ const getNextMove = (mark1, mark2) => {
     return mark1;
 }
 
+// Помечаем ячейку, изменяем массив, переключаем ход и проверяем победу
 const markCell = e => {
-    const img1 = document.getElementsByClassName('picker__img')[0];
-    const img2 = document.getElementsByClassName('picker__img')[8];
-    const mark1 = img1.getAttribute('value');
-    const mark2 = img2.getAttribute('value');
+    // Получаем метки текущих игроков
+    const mark = [
+        document.querySelectorAll('.picked-img')[0].getAttribute('value'),
+        document.querySelectorAll('.picked-img')[1].getAttribute('value')
+    ];
     
-    const newValue = getNextMove(mark1, mark2);
+    // Переключаем тугл хода и узнаем, чей ход
+    const newValue = getNextMove(mark[0], mark[1]);
     
+    // Заполняем ячейку в объекте игры
     const cellSite = [];
     const cellClassNumbers = e.target.classList[1].split('_');
     cellSite.push(Number(cellClassNumbers[1]));
     cellSite.push(Number(cellClassNumbers[2]));
     game.fillCell(newValue, cellSite);
     
-    const newImage = document.createElement('img');
-    newImage.setAttribute('src', `./pictures/${newValue}.svg`);
+    // Вставляем в клетку картиночку
+    const newImage = create('img', {
+        'src': `./pictures/${newValue}.svg`
+    });
     newImage.classList.add('cell__mark');
     e.target.appendChild(newImage);
     
-    if (game.checkWin(mark1) === 'ничья') {
-        const description = document.getElementsByClassName('description')[0];
+    // Проверяем, не победил ли кто-то
+    const description = document.querySelector('.description');
+    if (game.checkWin(mark[0]) === 'ничья') {
         description.innerHTML = `Ничья. Попробуйте еще.`;
-    } else if (game.checkWin(mark1) || game.checkWin(mark2)) {
-        const description = document.getElementsByClassName('description')[0];
-        description.innerHTML = `Победил игрок ${newValue === mark1 ? 'слева' : 'справа'}`;
+    } else if (game.checkWin(mark[0]) || game.checkWin(mark[1])) {
+        description.innerHTML = `Победил игрок ${newValue === mark[0] ? 'слева' : 'справа'}`;
         const winnerImg = newImage.cloneNode();
         winnerImg.classList.remove('cell__mark');
         winnerImg.classList.add('winner');
-        document.getElementsByClassName('game')[0].appendChild(winnerImg);
-        document.getElementsByClassName('board')[0].classList.add('board_hidden');
+        document.querySelector('.game').appendChild(winnerImg);
+        document.querySelector('.board').classList.add('board_hidden');
     };
     
+    // Отменяем обработчик клика
     e.target.removeEventListener('click', markCell);
 }
 
-const createCell = () => {
-    const cell = document.createElement('div');
-    cell.classList.add('cell');
+// Создаём клетку с классами, стилями и обработчиком и возвращаем её
+const createCell = (i, j) => {
+    const cell = create('div');
+    cell.classList.add('cell', `cell_${i + 1}_${j + 1}`);
+    cell.style.gridArea = `${i + 1} / ${j + 1} / ${i + 2} / ${j + 2}`;
     cell.addEventListener('click', markCell);
     
     return cell;
 }
 
+// Рисуем новую доску, создаем новый экземпляр игры
 const createNewGame = () => {
-    const board = document.getElementsByClassName('board')[0];
+    const board = document.querySelector('.board');
     
+    // Убираем метку победителя, если она есть
     board.classList.remove('board_hidden');
-    const winner = document.getElementsByClassName('winner')[0];
+    const winner = document.querySelector('.winner');
     if (winner) {
         winner.remove();
     }
     
-    Array.prototype.slice.call(board.children).forEach(cell => cell.remove());
+    // Чистим доску
+    board.innerHTML = '';
     
-    const queue = document.createElement('input');
-    queue.setAttribute('type', 'hidden');
-    queue.setAttribute('class', 'next-move');
-    queue.setAttribute('value', 0);
+    // Создаем счетчик хода
+    const queue = create('input', {
+        'type': 'hidden',
+        'class': 'next-move',
+        'value': 0
+    });
     board.appendChild(queue);
-        
-    const rows = document.getElementsByClassName('setting__rows')[0].value;
-    const columns = document.getElementsByClassName('setting__columns')[0].value;
+
+    // Создаем новый объект игрового поля
+    const rows = Number(document.querySelector('.setting__rows').value);
+    const columns = Number(document.querySelector('.setting__columns').value);
     const tableSize = Math.max(rows, columns);
     game = new Game(rows, columns);
     
+    // Задаем стили для правильной отрисовки элементов
     let gridStyleRows = '';
     let gridStyleColumns = '';
     for (let i = 0; i < tableSize; ++i) {
         gridStyleRows += '1fr ';
         gridStyleColumns += '1fr ';
     }
-
     board.style.gridTemplateRows = gridStyleRows;
     board.style.gridTemplateColumns = gridStyleColumns;
     
-    const cells = rows * columns;
-    const sizeCell = 450 / tableSize;
+    // Создаем клетки в поле
     for (let i = 0; i < rows; ++i) {
         for (let j = 0; j < columns; ++j) {
-            const cell = createCell();
-            cell.style.width = `${sizeCell}px`;
-            cell.style.height = `${sizeCell}px`;
-            cell.classList.add(`cell_${i + 1}_${j + 1}`);
-            cell.style.gridArea = `${i + 1} / ${j + 1} / ${i + 2} / ${j + 2}`;
+            const cell = createCell(i, j);
             board.appendChild(cell);
         };
     };
     
-    const description = document.getElementsByClassName('description')[0];
-    const needToWin = Math.min(rows, columns, 5);
+    // Меняем описание игры
+    const description = document.querySelector('.description');
+    const num = game.getBoard().needToWin;
     description.innerHTML = `Для победы необходимо занять` +
-        ` ${needToWin} ${needToWin > 4 ? 'ячеек' : 'ячейки'} подряд`;
+        ` ${num} ${num > 4 ? 'ячеек' : 'ячейки'} подряд`;
 };

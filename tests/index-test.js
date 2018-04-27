@@ -682,56 +682,56 @@ describe('tic-tac-toe-testing', () => {
     chai.should();
     describe('testing creator\'s functions', () => {
         afterEach(() => {
-            document.getElementsByClassName('setting__rows')[0].value = 3;
-            document.getElementsByClassName('setting__columns')[0].value = 3;
+            document.querySelector('.setting__rows').value = 3;
+            document.querySelector('.setting__columns').value = 3;
             createNewGame();
         });
         it('createNewGame should call createCell', () => {
             const createCellSpy = sinon.spy(document, 'createElement');
-            document.getElementsByClassName('setting__rows')[0].value = 3;
-            document.getElementsByClassName('setting__columns')[0].value = 3;
+            document.querySelector('.setting__rows').value = 3;
+            document.querySelector('.setting__columns').value = 3;
             createNewGame();
             createCellSpy.should.have.been.callCount(10);
         })
         it('createNewGame should will be sensitive to inputs (rows, columns)', () => {
-            document.getElementsByClassName('setting__rows')[0].value = 10;
-            document.getElementsByClassName('setting__columns')[0].value = 10;
+            document.querySelector('.setting__rows').value = 10;
+            document.querySelector('.setting__columns').value = 10;
             createNewGame();
-            const cells = document.getElementsByClassName('cell');
+            const cells = document.querySelectorAll('.cell');
             chai.expect(cells.length).to.equal(100);
         });
         it('createNewGame should create handler for next move with value `0`', () => {
             createNewGame();
-            const nextMove = document.getElementsByClassName('next-move')[0].value;
+            const nextMove = document.querySelector('.next-move').value;
             chai.expect(Number(nextMove)).to.equal(0);
         });
         it('immediately after start new game document shouldn\'t `winner` class', () => {
             const event = new Event('click');
-            document.getElementsByClassName('cell')[0].dispatchEvent(event);
-            document.getElementsByClassName('cell')[3].dispatchEvent(event);
-            document.getElementsByClassName('cell')[6].dispatchEvent(event);
+            document.querySelectorAll('.cell')[0].dispatchEvent(event);
+            document.querySelectorAll('.cell')[3].dispatchEvent(event);
+            document.querySelectorAll('.cell')[6].dispatchEvent(event);
             createNewGame();
-            const winnerClassCount = document.getElementsByClassName('winner').length;
+            const winnerClassCount = document.querySelectorAll('.winner').length;
             chai.expect(Number(winnerClassCount)).to.equal(0);
         });
         it('createNewGame should give good classes (`cell_i_j` template) for cells', () => {
             const rows = Math.floor(Math.random() * 10 + 3);
             const columns = Math.floor(Math.random() * 10 + 3);
-            document.getElementsByClassName('setting__rows')[0].value = rows;
-            document.getElementsByClassName('setting__columns')[0].value = columns;
+            document.querySelector('.setting__rows').value = rows;
+            document.querySelector('.setting__columns').value = columns;
             createNewGame();
             for (let i = 0; i < rows; ++i) {
                 for (let j = 0; j < columns; ++j) {
-                    const cell = document.getElementsByClassName('cell')[i*columns+j];
+                    const cell = document.querySelectorAll('.cell')[i*columns+j];
                     const className = cell.classList[1];
                     chai.expect(className).to.equal(`cell_${i+1}_${j+1}`);
                 };
             };
         });
         it('should create good description for game', () => {
-            const description = document.getElementsByClassName('description')[0];
-            const rows = document.getElementsByClassName('setting__rows')[0];
-            const columns = document.getElementsByClassName('setting__columns')[0];
+            const description = document.querySelector('.description');
+            const rows = document.querySelector('.setting__rows');
+            const columns = document.querySelector('.setting__columns');
             rows.value = 3;
             columns.value = 3;
             createNewGame();
@@ -761,7 +761,7 @@ describe('tic-tac-toe-testing', () => {
         it('markCell should call fillCell method from Game', () => {
             const spy = sinon.spy(game, 'fillCell');
             const event = new Event('click');
-            document.getElementsByClassName('cell')[0].dispatchEvent(event);
+            document.querySelector('.cell').dispatchEvent(event);
             spy.should.have.been.calledOnce;
         });
         it('should return x for even count of calls getNextMove(x,y)', () => {
@@ -780,14 +780,14 @@ describe('tic-tac-toe-testing', () => {
             getNextMove(1, 2);
             getNextMove(1, 2);
             getNextMove(1, 2);
-            const value = document.getElementsByClassName('next-move')[0].getAttribute('value');
+            const value = document.querySelector('.next-move').getAttribute('value');
             chai.expect(value).to.be.equal('1');
         });
         it('should give y value to `value` attribute for '
            + 'odd count of calls getNextMove(x,y)', () => {
             getNextMove(1, 2);
             getNextMove(1, 2);
-            const value = document.getElementsByClassName('next-move')[0].getAttribute('value');
+            const value = document.querySelector('.next-move').getAttribute('value');
             chai.expect(value).to.be.equal('2');
         });
     });
@@ -796,17 +796,17 @@ describe('tic-tac-toe-testing', () => {
         beforeEach(() => upgradeInterface());
         after(() => upgradeInterface());
         it('should create 7 icons for each player when call upgradeInterface', () => {
-            const pickers = document.getElementsByClassName('picker');
+            const pickers = document.querySelectorAll('.picker');
             chai.expect(pickers[0].children.length).to.be.equal(7);
             chai.expect(pickers[1].children.length).to.be.equal(7);
         });
         it('player can pick any of 7 icons in upgradable interface', () => {
             const event = new Event('click');
-            document.getElementsByClassName('picker__img')[4].dispatchEvent(event);
-            document.getElementsByClassName('picker__img')[15].dispatchEvent(event);
-            const icon2 = document.getElementsByClassName('first-player__mark')[0].children[0];
-            const icon1 = document.getElementsByClassName('first-player__mark')[0].children[0];
-            const firstCell = document.getElementsByClassName('cell')[0];
+            document.querySelectorAll('.picker__img')[4].dispatchEvent(event);
+            document.querySelectorAll('.picker__img')[15].dispatchEvent(event);
+            const icon2 = document.querySelector('.first-player__mark').children[0];
+            const icon1 = document.querySelector('.first-player__mark').children[0];
+            const firstCell = document.querySelector('.cell');
             firstCell.dispatchEvent(event);
             chai.expect(icon1.nodeName).to.be.equal('IMG');
             chai.expect(icon2.nodeName).to.be.equal('IMG');
@@ -815,21 +815,21 @@ describe('tic-tac-toe-testing', () => {
         });
         it('pickIcon should set `picker__label_hidden` class for checked label', () => {
             const event = new Event('click');
-            const label = document.getElementsByClassName('picker__label')[4];
+            const label = document.querySelectorAll('.picker__label')[4];
             label.children[1].dispatchEvent(event);
             chai.expect(label.classList[2]).to.be.equal('picker__label_hidden');
             
         });
         it('pickIcon should set hidden-input attribute checked to `true`', () => {
             const event = new Event('click');
-            const label = document.getElementsByClassName('picker__label')[4];
+            const label = document.querySelectorAll('.picker__label')[4];
             label.children[1].dispatchEvent(event);
             chai.expect(label.children[0].checked).to.be.true;
         });
         it('pickIcon should set `picker__label_hidden` class for opponent checked label', () => {
             const event = new Event('click');
-            const label = document.getElementsByClassName('label4')[0];
-            const opponentLabel = document.getElementsByClassName('label4')[1];
+            const label = document.querySelector('.label4');
+            const opponentLabel = document.querySelectorAll('.label4')[1];
             label.children[1].dispatchEvent(event);
             chai.expect(opponentLabel.classList[2]).to.be.equal('picker__label_hidden');
         });
@@ -837,62 +837,62 @@ describe('tic-tac-toe-testing', () => {
 
     describe('final interface testing', () => {
         before(() => {
-            document.getElementsByClassName('setting__rows')[0].value = 3;
-            document.getElementsByClassName('setting__columns')[0].value = 3;
+            document.querySelector('.setting__rows').value = 3;
+            document.querySelector('.setting__columns').value = 3;
             upgradeInterface();
             createNewGame();
         });
         afterEach(() => {
-            document.getElementsByClassName('setting__rows')[0].value = 3;
-            document.getElementsByClassName('setting__columns')[0].value = 3;
+            document.querySelector('.setting__rows').value = 3;
+            document.querySelector('.setting__columns').value = 3;
             upgradeInterface();
             createNewGame();
         });
         it('should be call createNewGame on click to button `Новая игра`', () => {
-            const board = document.getElementsByClassName('board')[0];
+            const board = document.querySelector('.board');
             board.innerHTML = '';
             const e = new Event('click');
-            document.getElementsByClassName('setting__new-game')[0].dispatchEvent(e);
+            document.querySelector('.setting__new-game').dispatchEvent(e);
             chai.expect(board.children.length).to.be.equal(9 + 1);
         });
         it('should be create game with 15+1 elements in `board` class,' +
            ' when input-rows is amended', () => {
-            const board = document.getElementsByClassName('board')[0];
+            const board = document.querySelector('.board');
             board.innerHTML = '';
-            document.getElementsByClassName('setting__rows')[0].value = 5;
+            document.querySelector('.setting__rows').value = 5;
             const e = new Event('click');
-            document.getElementsByClassName('setting__new-game')[0].dispatchEvent(e);
+            document.querySelector('.setting__new-game').dispatchEvent(e);
             chai.expect(board.children.length).to.be.equal(15 + 1);
         });
         it('should be create game with 15+1 elements in `board` class,' +
            ' when input-columns is amended', () => {
-            const board = document.getElementsByClassName('board')[0];
+            const board = document.querySelector('.board');
             board.innerHTML = '';
-            document.getElementsByClassName('setting__columns')[0].value = 5;
+            document.querySelector('.setting__columns').value = 5;
             const e = new Event('click');
-            document.getElementsByClassName('setting__new-game')[0].dispatchEvent(e);
+            document.querySelector('.setting__new-game').dispatchEvent(e);
             chai.expect(board.children.length).to.be.equal(15 + 1);
         });
         it(`should insert wanted image in cell on click`, () => {
-            const cell = document.getElementsByClassName('cell')[0];
+            const cell = document.querySelector('.cell');
             const e = new Event('click');
             cell.dispatchEvent(e);
             const img = cell.children[0];
             chai.expect(img.nodeName).to.be.equal('IMG');
             chai.expect(img.classList[0]).to.be.equal('cell__mark');
-            const srcIcon = document.getElementsByClassName('first-player__mark')[0]
+            const srcIcon = document.querySelector('.first-player__mark')
                 .children[0]
                 .getAttribute('src');
             const srcMark = img.getAttribute('src');
             chai.expect(srcIcon).to.be.equal(srcMark);
         });
         it(`should insert wanted image in cell on reclick`, () => {
-            const cell = document.getElementsByClassName('cell')[0];
+            const cell = document.querySelector('.cell');
             const e = new Event('click');
             cell.dispatchEvent(e);
             cell.dispatchEvent(e);
             const img = cell.children[0];
-            const srcIcon = document.getElementsByClassName('first-player__mark')[0]
+            const srcIcon = document.querySelector('.first-player__mark')
                 .children[0]
                 .getAttribute('src');
             const srcMark = img.getAttribute('src');
@@ -900,61 +900,61 @@ describe('tic-tac-toe-testing', () => {
         });
         it('chains of markCell, that lead to create winner img', () => {
             const event = new Event('click');
-            document.getElementsByClassName('cell')[0].dispatchEvent(event);
-            document.getElementsByClassName('cell')[1].dispatchEvent(event);
-            document.getElementsByClassName('cell')[3].dispatchEvent(event);
-            document.getElementsByClassName('cell')[4].dispatchEvent(event);
-            document.getElementsByClassName('cell')[6].dispatchEvent(event);
-            const winner = document.getElementsByClassName('winner').length;
+            document.querySelectorAll('.cell')[0].dispatchEvent(event);
+            document.querySelectorAll('.cell')[1].dispatchEvent(event);
+            document.querySelectorAll('.cell')[3].dispatchEvent(event);
+            document.querySelectorAll('.cell')[4].dispatchEvent(event);
+            document.querySelectorAll('.cell')[6].dispatchEvent(event);
+            const winner = document.querySelectorAll('.winner').length;
             chai.expect(winner).to.be.equal(1);
         });
         it('chains of markCell, that lead to set description', () => {
             const event = new Event('click');
-            document.getElementsByClassName('cell')[0].dispatchEvent(event);
-            document.getElementsByClassName('cell')[1].dispatchEvent(event);
-            document.getElementsByClassName('cell')[3].dispatchEvent(event);
-            document.getElementsByClassName('cell')[4].dispatchEvent(event);
-            document.getElementsByClassName('cell')[6].dispatchEvent(event);
+            document.querySelectorAll('.cell')[0].dispatchEvent(event);
+            document.querySelectorAll('.cell')[1].dispatchEvent(event);
+            document.querySelectorAll('.cell')[3].dispatchEvent(event);
+            document.querySelectorAll('.cell')[4].dispatchEvent(event);
+            document.querySelectorAll('.cell')[6].dispatchEvent(event);
             const description = document
-                .getElementsByClassName('description')[0]
+                .querySelector('.description')
                 .firstChild
                 .textContent;
             chai.expect(description).to.be.equal('Победил игрок слева');
         });
         it('chains of markCell, that lead to draw', () => {
             const event = new Event('click');
-            document.getElementsByClassName('cell')[0].dispatchEvent(event);
-            document.getElementsByClassName('cell')[1].dispatchEvent(event);
-            document.getElementsByClassName('cell')[2].dispatchEvent(event);
-            document.getElementsByClassName('cell')[4].dispatchEvent(event);
-            document.getElementsByClassName('cell')[3].dispatchEvent(event);
-            document.getElementsByClassName('cell')[6].dispatchEvent(event);
-            document.getElementsByClassName('cell')[5].dispatchEvent(event);
-            document.getElementsByClassName('cell')[8].dispatchEvent(event);
-            document.getElementsByClassName('cell')[7].dispatchEvent(event);
-            const isWinner = document.getElementsByClassName('winner').length;
+            document.querySelectorAll('.cell')[0].dispatchEvent(event);
+            document.querySelectorAll('.cell')[1].dispatchEvent(event);
+            document.querySelectorAll('.cell')[2].dispatchEvent(event);
+            document.querySelectorAll('.cell')[4].dispatchEvent(event);
+            document.querySelectorAll('.cell')[3].dispatchEvent(event);
+            document.querySelectorAll('.cell')[6].dispatchEvent(event);
+            document.querySelectorAll('.cell')[5].dispatchEvent(event);
+            document.querySelectorAll('.cell')[8].dispatchEvent(event);
+            document.querySelectorAll('.cell')[7].dispatchEvent(event);
+            const isWinner = document.querySelectorAll('.winner').length;
             chai.expect(isWinner).to.be.equal(0);
         });
         it('should be call createNewGame on re-select label for player', () => {
-            const board = document.getElementsByClassName('board')[0];
+            const board = document.querySelector('.board');
             board.innerHTML = '';
             const e = new Event('click');
             document
-                .getElementsByClassName('label3')[0]
+                .querySelector('.label3')
                 .children[1]
                 .dispatchEvent(e);
             chai.expect(board.children.length).to.be.equal(9 + 1);
         });
         it('should be call createNewGame on re-select label for player', () => {
-            const board = document.getElementsByClassName('board')[0];
+            const board = document.querySelector('.board');
             board.innerHTML = '';
             const e = new Event('click');
             document
-                .getElementsByClassName('label3')[0]
+                .querySelector('.label3')
                 .children[1]
                 .dispatchEvent(e);
             chai.expect(board.children[0].getAttribute('value')).to.be.equal('0');
-            document.getElementsByClassName('cell')[0].dispatchEvent(e);
+            document.querySelector('.cell').dispatchEvent(e);
             chai.expect(board.children[0].getAttribute('value')).to.be.equal('3');
         });
     });
@@ -962,21 +962,21 @@ describe('tic-tac-toe-testing', () => {
     // ради чего все и затевалось
     describe('testing bundle interface and logic', () => {
         beforeEach(() => {
-            document.getElementsByClassName('setting__rows')[0].value = 3;
-            document.getElementsByClassName('setting__columns')[0].value = 3;
+            document.querySelector('.setting__rows').value = 3;
+            document.querySelector('.setting__columns').value = 3;
             createNewGame();
         });
         after(() => {
-            document.getElementsByClassName('setting__rows')[0].value = 3;
-            document.getElementsByClassName('setting__columns')[0].value = 3;
+            document.querySelector('.setting__rows').value = 3;
+            document.querySelector('.setting__columns').value = 3;
             createNewGame();
         });
         it('should create array 3*[3*`0`] after create new game', () => {
             const e = new Event('click');
-            document.getElementsByClassName('setting__new-game')[0].dispatchEvent(e);
+            document.querySelector('.setting__new-game').dispatchEvent(e);
             const sample = {
-                rows: '3',
-                columns: '3',
+                rows: 3,
+                columns: 3,
                 needToWin: 3,
                 board: [
                     [0, 0, 0],
@@ -987,12 +987,12 @@ describe('tic-tac-toe-testing', () => {
             chai.expect(game.getBoard()).to.be.deep.equal(sample);
         });
         it('should create array 3*[10*`0`] after create new game', () => {
-            document.getElementsByClassName('setting__columns')[0].value = 10;
+            document.querySelector('.setting__columns').value = 10;
             const e = new Event('click');
-            document.getElementsByClassName('setting__new-game')[0].dispatchEvent(e);
+            document.querySelector('.setting__new-game').dispatchEvent(e);
             const sample = {
-                rows: '3',
-                columns: '10',
+                rows: 3,
+                columns: 10,
                 needToWin: 3,
                 board: [
                     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -1003,12 +1003,12 @@ describe('tic-tac-toe-testing', () => {
             chai.expect(game.getBoard()).to.be.deep.equal(sample);
         });
         it('should create array 10*[3*`0`] after create new game', () => {
-            document.getElementsByClassName('setting__rows')[0].value = 10;
+            document.querySelector('.setting__rows').value = 10;
             const e = new Event('click');
-            document.getElementsByClassName('setting__new-game')[0].dispatchEvent(e);
+            document.querySelector('.setting__new-game').dispatchEvent(e);
             const sample = {
-                rows: '10',
-                columns: '3',
+                rows: 10,
+                columns: 3,
                 needToWin: 3,
                 board: [
                     [0, 0, 0],
@@ -1027,12 +1027,12 @@ describe('tic-tac-toe-testing', () => {
         });
         it('shouldn`t set left playerMark in array on first move', () => {
             const e = new Event('click');
-            document.getElementsByClassName('setting__new-game')[0].dispatchEvent(e);
-            const cells = document.getElementsByClassName('cell');
+            document.querySelector('.setting__new-game').dispatchEvent(e);
+            const cells = document.querySelectorAll('.cell');
             cells[0].dispatchEvent(e);
             const sample = {
-                rows: '3',
-                columns: '3',
+                rows: 3,
+                columns: 3,
                 needToWin: 3,
                 board: [
                     ['1', 0, 0],
@@ -1044,15 +1044,15 @@ describe('tic-tac-toe-testing', () => {
         });
         it('should set playerMark in array after cellClick', () => {
             const e = new Event('click');
-            document.getElementsByClassName('setting__new-game')[0].dispatchEvent(e);
-            const cells = document.getElementsByClassName('cell');
+            document.querySelector('.setting__new-game').dispatchEvent(e);
+            const cells = document.querySelectorAll('.cell');
             cells[0].dispatchEvent(e);
             cells[2].dispatchEvent(e);
             cells[5].dispatchEvent(e);
             cells[3].dispatchEvent(e);
             const sample = {
-                rows: '3',
-                columns: '3',
+                rows: 3,
+                columns: 3,
                 needToWin: 3,
                 board: [
                     ['1', 0, '2'],
@@ -1064,15 +1064,15 @@ describe('tic-tac-toe-testing', () => {
         });
         it('shouldn`t set playerMark in array, if cell isn`t empty', () => {
             const e = new Event('click');
-            document.getElementsByClassName('setting__new-game')[0].dispatchEvent(e);
-            const cells = document.getElementsByClassName('cell');
+            document.querySelector('.setting__new-game').dispatchEvent(e);
+            const cells = document.querySelectorAll('.cell');
             cells[0].dispatchEvent(e);
             cells[2].dispatchEvent(e);
             cells[5].dispatchEvent(e);
             cells[3].dispatchEvent(e);
             const sample = {
-                rows: '3',
-                columns: '3',
+                rows: 3,
+                columns: 3,
                 needToWin: 3,
                 board: [
                     ['1', 0, '2'],
@@ -1085,8 +1085,8 @@ describe('tic-tac-toe-testing', () => {
         });
         it('checkWinner for left player', () => {
             const e = new Event('click');
-            document.getElementsByClassName('setting__new-game')[0].dispatchEvent(e);
-            const cells = document.getElementsByClassName('cell');
+            document.querySelector('.setting__new-game').dispatchEvent(e);
+            const cells = document.querySelectorAll('.cell');
             cells[0].dispatchEvent(e);
             cells[2].dispatchEvent(e);
             cells[4].dispatchEvent(e);
@@ -1096,8 +1096,8 @@ describe('tic-tac-toe-testing', () => {
         });
         it('check draw for full board', () => {
             const e = new Event('click');
-            document.getElementsByClassName('setting__new-game')[0].dispatchEvent(e);
-            const cells = document.getElementsByClassName('cell');
+            document.querySelector('.setting__new-game').dispatchEvent(e);
+            const cells = document.querySelectorAll('.cell');
             cells[0].dispatchEvent(e);
             cells[1].dispatchEvent(e);
             cells[2].dispatchEvent(e);
@@ -1108,8 +1108,8 @@ describe('tic-tac-toe-testing', () => {
             cells[8].dispatchEvent(e);
             cells[7].dispatchEvent(e);
             const sample = {
-                rows: '3',
-                columns: '3',
+                rows: 3,
+                columns: 3,
                 needToWin: 3,
                 board: [
                     ['1', '2', '1'],

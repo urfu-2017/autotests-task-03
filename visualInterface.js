@@ -1,14 +1,19 @@
-
 const pickIcon = e => {
-    e.preventDefault();
-    e.target.previousSibling.checked = true;
-    const picture = e.target.cloneNode('deep');
-    const player = e.target.parentElement.parentElement.parentElement;
+    const icon = e.target;
+
+    // Выбираем радиокнопку с лейблом
+    icon.previousSibling.checked = true;
+
+    // Вставляем ее на место "сейчас выбрано"
+    const picture = icon.cloneNode('deep');
+    picture.classList.add('picked-img')
+    const player = icon.parentElement.parentElement.parentElement;
     const mark = player.getElementsByClassName('mark')[0];
     mark.innerHTML = '';
     mark.appendChild(picture);
     
-    const allLabels = document.getElementsByClassName('picker__label');
+    // Пересчитываем все радиокнопки и добавляем классы невидимости
+    const allLabels = document.querySelectorAll('.picker__label');
     for (let i = 0; i < 7; ++i) {
         const label1 = allLabels[i];
         const label2 = allLabels[i + 7];
@@ -20,43 +25,51 @@ const pickIcon = e => {
         };
     };
     
+    // Создаем новую игру, чтобы избежат коллизий
     createNewGame();
 };
 
-const upgradeInterface = () => {    
-    const pickers = document.getElementsByClassName('picker');
+const upgradeInterface = () => {
+    // Чистим колонки для вставки элементов
+    const pickers = document.querySelectorAll('.picker');
     Array.prototype.slice.call(pickers).forEach(picker => picker.innerHTML = '');
     
+    // Создаем лейблы и вставляем их в колонки
     for (let i = 1; i <= 7; ++i) {
-        const icon = document.createElement('label');
-        icon.setAttribute('class', `picker__label label${i}`);
+        const icon1 = create('label');
+        icon1.classList.add('picker__label', `label${i}`);
         
-        const img = document.createElement('img');
-        img.setAttribute('src', `./pictures/${i}.svg`);
-        img.setAttribute('class', 'picker__img');
-        img.setAttribute('value', i);
+        const input = create('input', {
+            'type': 'radio',
+            'value': i,
+            'class': 'picker__input'
+        });
+        icon1.appendChild(input);
         
-        const input = document.createElement('input');
-        input.setAttribute('type', 'radio');
-        input.setAttribute('value', i);
-        input.setAttribute('class', 'picker__input');
+        const img = create('img', {
+            'src': `./pictures/${i}.svg`,
+            'class': 'picker__img',
+            'value': i
+        });
+        icon1.appendChild(img);
+
+        icon1.children[0].setAttribute('name', 'player1');
+        icon1.children[1].addEventListener('click', pickIcon);
+        pickers[0].appendChild(icon1);
         
-        icon.appendChild(input);
-        icon.appendChild(img);
-        
-        const icon2 = icon.cloneNode('deep');
-        
-        icon.children[0].setAttribute('name', 'player1');
-        pickers[0].appendChild(icon);
-        
+        const icon2 = icon1.cloneNode('deep');
         icon2.children[0].setAttribute('name', 'player2');
         pickers[1].appendChild(icon2);
-        
-        icon.children[1].onclick = pickIcon;
-        icon2.children[1].onclick = pickIcon;
+        icon2.children[1].addEventListener('click', pickIcon);
     };
     
+    // Кликаем по первой иконке в колонке 1 и по второй в колонке 2
     const event = new Event('click');
-    document.getElementsByClassName('label1')[0].children[1].dispatchEvent(event);
-    document.getElementsByClassName('label2')[1].children[1].dispatchEvent(event);
+    document.querySelectorAll('.label1')[0].children[1].dispatchEvent(event);
+    document.querySelectorAll('.label2')[1].children[1].dispatchEvent(event);
 };
+
+document.addEventListener('DOMContentLoaded', () => {
+    upgradeInterface();
+    document.querySelector('.setting__new-game').addEventListener('click', createNewGame);
+});
