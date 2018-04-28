@@ -3,8 +3,10 @@ function waitIFrameLoad(doneCallback) {
 
     if (!iFrame) {
         setTimeout(waitIFrameLoad, 1000);
-    } else {
+    } else if (iFrame.contentDocument.readyState !== 'complete') {
         iFrame.contentWindow.addEventListener('load', () => doneCallback());
+    } else {
+        doneCallback();
     }
 }
 

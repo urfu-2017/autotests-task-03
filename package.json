@@ -4,7 +4,7 @@
   "description": "Задача «Крестики-нолики»",
   "main": "index.js",
   "scripts": {
-    "test": "mocha-headless-chrome --file index.html --args no-sandbox"
+    "test": "mocha-headless-chrome --file index.html -a no-sandbox -a non-secure -a disable-web-security"
   },
   "repository": {
     "type": "git",
