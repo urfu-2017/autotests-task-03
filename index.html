@@ -8,11 +8,10 @@
     <link href="node_modules/mocha/mocha.css" rel="stylesheet"/>
 </head>
 <body>
+<iframe id="tested-content" src="example/index.html" hidden></iframe>
+
 <!-- относительно этого элемента выводится тестовый отчет -->
 <div id="mocha"></div>
-
-<!-- подключаем файл с логикой определения победителя -->
-<script src="index.js"></script>
 
 <!-- подключаем файл с библиотекой ассертов -->
 <script src="node_modules/chai/chai.js"></script>
@@ -20,6 +19,7 @@
 <!-- конфигурируем и запускаем тесты -->
 <script src="node_modules/mocha/mocha.js"></script>
 <script>mocha.setup('bdd');</script>
+<script src="tests/test-utils.js"></script>
 <script src="tests/index-test.js"></script>
 <script>mocha.run();</script>
 
