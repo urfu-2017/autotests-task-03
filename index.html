@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <title>cross-zero</title>
 
-    <!-- подключаем стили, чтобы тесты вяглядели красиво -->
-    <link href="node_modules/mocha/mocha.css" rel="stylesheet"/>
     <style>
         table {
             border-collapse: collapse;
+
             border-style: hidden;
         }
 
@@ -80,24 +79,10 @@
 
             opacity: 1;
         }
-
     </style>
+    <link href="node_modules/mocha/mocha.css" rel="stylesheet"/>
 </head>
 <body>
-<!-- относительно этого элемента выводится тестовый отчет -->
-<div id="mocha"></div>
-
-<!-- подключаем файл с логикой определения победителя -->
-<script src="index.js"></script>
-
-<!-- подключаем файл с библиотекой ассертов -->
-<script src="node_modules/chai/chai.js"></script>
-
-<!-- конфигурируем и запускаем тесты -->
-<script src="node_modules/mocha/mocha.js"></script>
-<script>mocha.setup('bdd');</script>
-<script src="tests/index-test.js"></script>
-<script>mocha.run();</script>
 <table id="playing-field" class="current_x">
     <tr>
         <td><input type="text" hidden id="0-0"><span class="val"></span></td>
@@ -115,36 +100,21 @@
         <td><input type="text" hidden id="2-2"><span class="val"></span></td>
     </tr>
 </table>
-<button  id="new-game" onclick='window.location.reload()' >Начать игру</button>
-<script>
-    const playingField = document.getElementById('playing-field');
-    let currentPlayer = 'x';
-    let canChangePlayer = true;
+<div id="winer"></div>
+<button  id="new-game" onclick='newGame()' >Начать игру</button>
 
-    function getCellValue(row, column) {
-        const input = document.getElementById(row + '-' + column);
+<!-- относительно этого элемента выводится тестовый отчет -->
+<div id="mocha"></div>
 
-        return input.value;
-    }
+<!-- подключаем файл с логикой определения победителя -->
+<script src="index.js"></script>
+<!-- подключаем файл с библиотекой ассертов -->
+<script src="node_modules/chai/chai.js"></script>
 
-    playingField.addEventListener('click', event => {
-        if (!canChangePlayer) {
-            return;
-        }
-        canChangePlayer = false;
-
-        const cell = event.target;
-        const hiddenInput = cell.getElementsByTagName('input')[0];
-
-        if (!hiddenInput.value) {
-            hiddenInput.setAttribute('value', currentPlayer);
-            currentPlayer = currentPlayer === 'x' ? 'o' : 'x';
-            playingField.setAttribute('class', 'current_' + currentPlayer);
-        }
-
-        canChangePlayer = true;
-        winner();
-    });
-</script>
+<!-- конфигурируем и запускаем тесты -->
+<script src="node_modules/mocha/mocha.js"></script>
+<script>mocha.setup('bdd');</script>
+<script src="tests/index-test.js"></script>
+<script>mocha.run();</script>
 </body>
 </html>
