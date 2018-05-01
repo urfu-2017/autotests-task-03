@@ -31,12 +31,6 @@
     const DEFAULT_WIN_SIZE = 3
 
 
-    const generateBattlefield = (size) => (
-        times(size * size, constant(N))
-        .map((value, index) => ({ value, index }))
-    )
-
-
     export default {
         data () {
             return {
@@ -205,22 +199,34 @@
                 this.players.push(this.players.shift())
             },
 
+            setCell (cellIdx, value) {
+                let cell = this.battlefield[cellIdx]
+
+                if (!cell) {
+                    this.setLog('Incorrect cell index', LOG_ERROR)
+                    return false
+                }
+
+                if (cell.value !== N) {
+                    this.setLog('The place is not empty', LOG_WARNING)
+                    return false
+                }
+
+                cell.value = value
+                return true
+            },
+
             makeTurn (cellIdx) {
                 if (this.finished) {
                     this.setLog('The game is finished', LOG_WARNING)
                     return
                 }
 
-                let cell = this.battlefield[cellIdx]
-
-                if (cell.value !== N) {
-                    this.setLog('The place is occupied', LOG_WARNING)
+                if (!this.setCell(cellIdx, this.player)) {
                     return
                 }
 
-                cell.value = this.player
-
-                if (this.checkWin(cell.index)) {
+                if (this.checkWin(cellIdx)) {
                     this.finished = true
                     this.setLog(`Player ${this.player} won!`, LOG_SUCCESS)
                     return
