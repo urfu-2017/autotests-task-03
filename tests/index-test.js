@@ -21,7 +21,7 @@ describe('getWinner', () => {
         chai.expect(actual).to.equal(null);
     });
 
-    it('should return `x` if first player has won in vertical case', () => {
+    it('should return `x` if first player has won in horizontal case', () => {
         cellClick(0, 0);
         cellClick(1, 0);
         cellClick(0, 1);
@@ -31,7 +31,7 @@ describe('getWinner', () => {
         chai.expect(actual).to.equal('x');
     });
 
-    it('should return `x` if first player has won in horizontal case', () => {
+    it('should return `x` if first player has won in vertical case', () => {
         cellClick(0, 0);
         cellClick(0, 1);
         cellClick(1, 0);
@@ -51,7 +51,7 @@ describe('getWinner', () => {
         chai.expect(actual).to.equal('x');
     });
 
-    it('should return `o` if second player has won in vertical case', () => {
+    it('should return `o` if second player has won in horizontal case', () => {
         cellClick(0, 0);
         cellClick(1, 0);
         cellClick(0, 1);
@@ -62,7 +62,7 @@ describe('getWinner', () => {
         chai.expect(actual).to.equal('o');
     });
 
-    it('should return `o` if second player has won in horizontal case', () => {
+    it('should return `o` if second player has won in vertical case', () => {
         cellClick(0, 1);
         cellClick(0, 2);
         cellClick(1, 1);
