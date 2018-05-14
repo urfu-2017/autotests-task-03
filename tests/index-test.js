@@ -46,5 +46,10 @@ describe('cross-zero', () => {
 		fillField(new Array(0,0,1,0));
 		chai.assert.equal(getCellValue(1,0), 'o');
 	});
+	it('should clean all cells after clicking the button', () => {
+		for(var i=0; i<3; i++)
+			for(var j=0; j<3; j++)
+		chai.assert.equal(getCellValue(i,j), '');
+	});
 });
 
