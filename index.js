@@ -58,7 +58,9 @@ var steps = 0;
 	function isSameCells(cells){
 		if ((getCellValue(cells[0], cells[1]) == getCellValue(cells[2], cells[3])) && 
 			(getCellValue(cells[2], cells[3]) == getCellValue(cells[4], cells[5])) && 
-			(getCellValue(cells[0], cells[1]) !='') && (getCellValue(cells[2], cells[3]) != ''))
+			(getCellValue(cells[0], cells[1]) !='') && 
+		    	(getCellValue(cells[2], cells[3]) !='') && 
+			(getCellValue(cells[4], cells[5]) != ''))
 			return true;
 	}
 
@@ -67,7 +69,7 @@ var steps = 0;
 		if (isSameCells([1,0, 1,1, 1,2])) return getCellValue(1,2);
 		if (isSameCells([2,0, 2,1, 2,2])) return getCellValue(2,2);
 		if (isSameCells([0,0, 1,0, 2,0])) return getCellValue(2,0);
-		if (isSameCells([1,0, 1,1, 2,1])) return getCellValue(2,1);
+		if (isSameCells([0,1, 1,1, 2,1])) return getCellValue(2,1);
 		if (isSameCells([0,2, 1,2, 2,2])) return getCellValue(2,2);
 		if (isSameCells([0,0, 1,1, 2,2])) return getCellValue(2,2);
 		if (isSameCells([0,2, 1,1, 2,0])) return getCellValue(2,0);
