@@ -1,17 +1,41 @@
 mocha.setup('bdd');
 describe('cross-zero', () => {
 	beforeEach(function() {
-    document.getElementById("clear").click();
-  });
+        document.getElementById("clear").click();
+    });
   
-  function clickCell(id) {
-	document.getElementById(id).parentNode.click();
-}
-function getResult(result) {
-	return '<span>' + result + '</span>'
-}
+    function clickCell(id) {
+	    document.getElementById(id).parentNode.click();
+    }
+    function getResult(result) {
+	    return '<span>' + result + '</span>'
+    }
 
-    it('should not show winner at start', () => {
+    it('should clear', () => {
+		const cells = [
+		    "0-0", "0-1", "0-2", 
+		    "1-0", "1-1", "1-2", 
+		    "2-0", "2-1", "2-2"
+		];
+		cells.forEach(clickCell);
+		document.getElementById("clear").click();
+		cells.forEach(id => chai.assert.equal(document.getElementById(id).value, ''));
+	});
+	
+	it('should change turn after correct placing', () => {
+		clickCell("0-0");
+		clickCell("0-1");
+		chai.assert.equal(document.getElementById("0-1").value, 'o');
+	});
+	
+	it('should not change turn after incorrect placing', () => {
+		clickCell("0-0");
+		clickCell("0-0");
+		clickCell("0-1");
+		chai.assert.equal(document.getElementById("0-1").value, 'o');
+	});
+	
+	it('should not show winner at start', () => {
 		const winner = document.getElementById("winner");
 		chai.assert.equal(winner.innerHTML, '');
 	});
