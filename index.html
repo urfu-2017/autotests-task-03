@@ -79,6 +79,11 @@
 
             opacity: 1;
         }
+        #winer{
+            padding-left: 170px;
+            font-weight: bold;
+            font-size: 100px;
+        }
     </style>
     <link href="node_modules/mocha/mocha.css" rel="stylesheet"/>
 </head>
@@ -101,6 +106,8 @@
             <td><input type="text" hidden id="2-2"><span class="val"></span></td>
         </tr>
 </table>
+
+<input id="refresh" type="button" onclick="cleargame()" value="Обновить" />
 <div id="winer"></div>
 <!-- относительно этого элемента выводится тестовый отчет -->
 <div id="mocha"></div>
